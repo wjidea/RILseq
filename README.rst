@@ -1,6 +1,12 @@
 ================
 RILseq
 ================
+
+I made a few changes to the RILseq/__int__.py script to allow NamedTemperaryFile save before it was used by the next cmd line.
+This script was tested on MSU ICER HPCC - CentOS.
+
+-J
+
 Intention
 ---------
 This package can be used to analyzed RILseq experiments. It is written for a prokaryotic genome, without splice junction mapping and with some additional features. RILseq is described in Melamed et al, Molecular Cell 63 (2016), pp. 884-897 (http://www.cell.com/molecular-cell/fulltext/S1097-2765(16)30413-0).
@@ -68,13 +74,13 @@ Run this with::
 
 There are more arguments, some mentioned above, other can be seen using -h. In order to get gene annotations you should get the EcoCyc flat files of your organism, they require registration, point the data directory with --ec_dir. The names of the chromosomes are probably different from the bam file (the genome.fa file you used for mapping) and the EcoCyc files. You can give the script a dictionary from the bam to EcoCyc using a comma separated list of names where the name in EcoCyc follows the name in the bam file.
 
-In addition to printing the interactions, this script can compute the interaction free-energy using RNAup (version 1 only, version 2 doesn't work) if --shuffles is > 0, it uses shuffled sequences to compute a p-value on this energy. 
+In addition to printing the interactions, this script can compute the interaction free-energy using RNAup (version 1 only, version 2 doesn't work) if --shuffles is > 0, it uses shuffled sequences to compute a p-value on this energy.
 
 
 Generating Plots and Tracks
 ---------------------------
-The script plot_circos_plot read the output of map_chimeric_fragments.py to 
-generate a list of interactions between regions in the chromosome. It can't 
+The script plot_circos_plot read the output of map_chimeric_fragments.py to
+generate a list of interactions between regions in the chromosome. It can't
 show interactions between two chromosomes.
 
 Together with the conf files in the data/E_coli_K12 dir and the short script
@@ -94,7 +100,7 @@ Data Files
 ----------
 This package works well for E. coli K12 (RefSeq NC_000913.2 genome and RefSeq NC_000913.3 genome). The data
 directory contains two separate sub directories termed ver2 and ver3 for each of the two genome versions which
-includes the genome \*.fa, the EcoCyc genes gff file and the EcoCyc transcripts gff file. These files and others in the ver2 and ver3 directories are based on EcoCyc version 19.0 and 20.0 respectively and include data from BioCyC(TM) pathway/genome database under license from SRI international. 
+includes the genome \*.fa, the EcoCyc genes gff file and the EcoCyc transcripts gff file. These files and others in the ver2 and ver3 directories are based on EcoCyc version 19.0 and 20.0 respectively and include data from BioCyC(TM) pathway/genome database under license from SRI international.
 The genome should be indexed using bwa index genome.fa before using it. The two gff files can be generated using the scripts::
 
     generate_transcripts_gff.py EcoCyc_data_dir
@@ -104,7 +110,7 @@ and::
     generate_genes_gff.py EcoCyc_data_dir
 
 There are two additional files in the ver2 data directory: a curated list of targets
-taken from EcoCyc with slight changes and a table of REP elements (used for annotation of results), this table was downloaded from:  http://ecocyc.org/group?id=biocyc14-8223-3640227683 
+taken from EcoCyc with slight changes and a table of REP elements (used for annotation of results), this table was downloaded from:  http://ecocyc.org/group?id=biocyc14-8223-3640227683
 
 Requirements
 ------------
