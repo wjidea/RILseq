@@ -53,7 +53,7 @@ def run_bwa(bwa_cmd, fname1, fname2, output_dir, output_prefix, mismatches,
     - `bamfile`: Output bam file name
     """
     # Run aln of bwa on both files
-    sai1 = NamedTemporaryFile(dir=output_dir)
+    sai1 = NamedTemporaryFile(dir=output_dir, delete=False)
    
     # Added 11.2.17 - bug fix for adding of the params_aln parameters.
     # This param was ignored when using the splitting option of subprocess.
@@ -65,7 +65,7 @@ def run_bwa(bwa_cmd, fname1, fname2, output_dir, output_prefix, mismatches,
     call(next_cmd, stdout=sai1)
 
     if fname2:
-        sai2 = NamedTemporaryFile(dir=output_dir)
+        sai2 = NamedTemporaryFile(dir=output_dir, delete=false)
         next_cmd = [bwa_cmd, 'aln', '-n', str(mismatches)]
         next_cmd.extend(params_aln.split())
         next_cmd.extend([fasta_genome, fname2])
@@ -74,14 +74,14 @@ def run_bwa(bwa_cmd, fname1, fname2, output_dir, output_prefix, mismatches,
         # Run sampe on both sai files
 
     # Changed 11.2.17 by niv. Piping bug fix in version update of the cluster
-    bwa_file = NamedTemporaryFile(dir=output_dir)
+    bwa_file = NamedTemporaryFile(dir=output_dir, delete=False)
     if fname2:
         bwa_sam_cmd = ' '.join([bwa_cmd, 'sampe', params_sampe, fasta_genome, sai1.name, sai2.name, fname1, fname2,
                                 '>', bwa_file.name])
     else:  # Single end
         bwa_sam_cmd = ' '.join([bwa_cmd, 'samse', params_samse, fasta_genome, sai1.name, fname1, '>', bwa_file.name])
 
-    view_file = NamedTemporaryFile(dir=output_dir)
+    view_file = NamedTemporaryFile(dir=output_dir, delete=False)
     view_cmd = ' '.join([samtools_cmd, 'view', '-u', bwa_file.name, '>', view_file.name])
     sort_cmd = ' '.join([samtools_cmd, 'sort', view_file.name, '-o', "%s/%s.bam" % (output_dir, output_prefix)])
 
